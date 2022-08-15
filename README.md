@@ -2,7 +2,7 @@
 
 ## 初次建立本專案
 1. 安裝Node.js
-2. 於專案目錄執行`npm init`
+2. 於專案目錄執行`npm install`
 
 ## 啟動伺服器
 1. 執行`npm run dev`
