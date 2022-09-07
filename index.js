@@ -23,6 +23,8 @@ app.use(cookieParser());
 app.use('/api', api);
 
 app.use(express.static('statics'));
+// 前端網頁
+app.use(express.static('statics/html'));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

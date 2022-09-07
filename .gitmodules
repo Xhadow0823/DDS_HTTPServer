@@ -1,0 +1,3 @@
+[submodule "statics/html"]
+	path = statics/html
+	url = https://github.com/Xhadow0823/DDS_FrontEnd.git
