@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+(c) 2005-2015 Copyright, Real-Time Innovations.  All rights reserved.
+No duplications, whole or partial, manual or electronic, may be made
+without express written permission.  Any such copies, or revisions thereof,
+must display this notice unaltered.
+This code contains trade secrets of Real-Time Innovations, Inc.
+ -->
+
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/current/rti_dds_profiles.xsd">
+
+    <!-- Qos Library -->
+    <qos_library name="QosLibrary">
+        <qos_profile name="DefaultProfile"
+                     base_name="BuiltinQosLibExp::Generic.StrictReliable"
+                     is_default_qos="true">
+            <domain_participant_qos>
+                <participant_name>
+                    <name>Connector Shape Example</name>
+                </participant_name>
+            </domain_participant_qos>
+        </qos_profile>
+    </qos_library>
+
+    <!-- types -->
+    <types>
+        <struct name="Modbus" extensibility="extensible">
+            <member name="id" stringMaxLength="128" type="string" key="true" />
+            <member name="temperature" type="float64"/>
+        </struct>
+    </types>
+    <types>
+        <struct name="BackEnd" extensibility="extensible">
+            <member name="id" stringMaxLength="128" type="string" key="true" />
+            <member name="motor_speed" type="int32"/>
+        </struct>
+    </types>
+
+    <!-- Domain Library -->
+    <domain_library name="MyDomainLibrary">
+        <domain name="MyDomain" domain_id="0">
+            <register_type name="Modbus" type_ref="Modbus" />
+            <register_type name="BackEnd" type_ref="BackEnd" />
+            <topic name="SensorData" register_type_ref="Modbus"/>
+            <topic name="BackendData" register_type_ref="BackEnd"/>
+        </domain>
+    </domain_library>
+
+    <!-- Participant library -->
+    <domain_participant_library name="MyParticipantLibrary">      
+        <!-- We use separate participants because we run the writer and the reader
+            on different applications, and wouldn't want to create the reader
+            in writer.py, or the writer in reader.py -->
+        <domain_participant name="MySubParticipant" domain_ref="MyDomainLibrary::MyDomain">
+            <subscriber name="MySubscriber">
+                <data_reader name="MyModbusReader" topic_ref="SensorData" />
+                <data_reader name="MyBackendReader" topic_ref="BackendData" />
+            </subscriber>
+        </domain_participant> 
+
+        <domain_participant name="MyPubParticipant" domain_ref="MyDomainLibrary::MyDomain">
+            <publisher name="MyPublisher">
+                <data_writer name="MyModbusWriter" topic_ref="SensorData" />
+                <data_writer name="MyBackendWriter" topic_ref="BackendData" />
+            </publisher>
+        </domain_participant> 
+ 
+    </domain_participant_library>
+</dds>

@@ -1,0 +1,48 @@
+<!-- 測試用檔案 -->
+<html>
+
+<body>
+  <h2>SOCKET IO TEST</h2>
+  <details open id="data">
+    <summary>TOPIC DATA</summary>
+    <!-- bruh... -->
+  </details>
+
+  <hr>
+
+  <h3>send something: 
+    <input type="text" id="something" placeholder="type something" onkeyup="if(event.keyCode==13) sendData(); return false;">
+    <button id="send" onclick="sendData(); return false;">SEND</button>
+  </h3>
+
+  <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+    integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+    crossorigin="anonymous"></script>
+  <script>
+    var socket = io();
+    socket.on('connect', (socket) => {
+      console.log('Ahhhhh!!');
+    });
+    socket.on('TopicData', (data) => {
+      console.log(data);
+      let priceEle = document.getElementById('data');
+      priceEle.innerHTML += `${data} <br/>`;
+      // priceEle.innerHTML = JSON.stringify(data);
+      // priceEle.style.color = data.tempature < 0 ? 'red' : 'blue';
+    });
+
+    function sendData() {
+      let somethingEle = document.getElementById('something');
+      let purified = somethingEle.value.trim();
+      if(purified.length > 0) {
+        console.log("Sending data...: ", purified);
+        socket.emit('TopicDataToSend', purified, (resp) => {
+          console.log(resp);
+          somethingEle.value = '';
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

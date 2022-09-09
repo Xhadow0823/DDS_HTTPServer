@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const api = require('./routes');
+const ddsSocketStart = require('./dds_socket');
 
 const app = express();
 const { createServer } = require('http');
@@ -32,8 +33,11 @@ app.get('/', (req, res) => {
 
 // 當有新 Socket 連接上時，做...
 io.on('connection', (socket) => {
-  console.log('New socket connection!');
+  console.log('❕New socket connection!: ', socket.id);
 });
+
+// 啟動 dds socket server
+ddsSocketStart(io);
 
 httpServer.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);

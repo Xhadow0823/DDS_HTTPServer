@@ -1,12 +1,12 @@
 {
   "name": "dds_httpserver",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "DDS gateway 產學專案 HTTP 伺服器 (node v10.20.1)",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "run reader": "node dds/reader.js",
-    "run writer": "node dds/writer.js"
+    "run reader": "nodemon dds_socket/reader_dds.js",
+    "run writer": "nodemon dds_socket/writer_dds.js"
   },
   "author": "MIAT Lab",
   "license": "ISC",
