@@ -31,7 +31,7 @@ const ddsReaderStart = async (io) => {
           console.log('[ddsReaderStart] error: ', error);  continue;
         } finally {
           console.log('📡⬅ : ' + result);
-          io.emit('TopicData', result);  // todo: => "TopicData: {Topic}"
+          io.emit(`TopicData:SensorData`, result);  // todo: => "TopicData: {Topic}"
           // todo: push data to database
         }
       }
@@ -47,14 +47,14 @@ const ddsWriterStart = async (io) => {
   let callbackQueue  = new Array();
   let i = 0;
   io.on('connection', (socket) => {
-    socket.on('TopicDataToSend', (data, callback) => {  // todo: => "TopicDataToSend: {Topic}"
+    socket.on(`TopicDataToSend:SensorData`, (data, callback) => {  // todo: => "TopicDataToSend:{Topic}"
       console.log('📡➡: ', data);  // todo: 改時機?
       toPublishQueue.push(data);
       callbackQueue.push(callback);  // 發送成功或失敗時才呼叫
     });
 
     socket.on('disconnect', () => {  // 斷線後解除監聽
-      socket.off('TopicDataToSend', () => { /* do nothing */ });
+      socket.off('TopicDataToSend:SensorData', () => { /* do nothing */ });
       console.log('disconnect 2');
     });
   });

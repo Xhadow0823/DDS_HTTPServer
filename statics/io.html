@@ -3,7 +3,7 @@
 
 <body>
   <h2>SOCKET IO TEST</h2>
-  <details open id="data">
+  <details open id="data" style="max-height: 300px; overflow-y: scroll;">
     <summary>TOPIC DATA</summary>
     <!-- bruh... -->
   </details>
@@ -23,10 +23,10 @@
     socket.on('connect', (socket) => {
       console.log('Ahhhhh!!');
     });
-    socket.on('TopicData', (data) => {
+    socket.on('TopicData:SensorData', (data) => {
       console.log(data);
       let priceEle = document.getElementById('data');
-      priceEle.innerHTML += `${data} <br/>`;
+      priceEle.innerHTML = `${data} <br/>` + priceEle.innerHTML;
       // priceEle.innerHTML = JSON.stringify(data);
       // priceEle.style.color = data.tempature < 0 ? 'red' : 'blue';
     });
@@ -36,7 +36,7 @@
       let purified = somethingEle.value.trim();
       if(purified.length > 0) {
         console.log("Sending data...: ", purified);
-        socket.emit('TopicDataToSend', purified, (resp) => {
+        socket.emit('TopicDataToSend:SensorData', purified, (resp) => {
           console.log(resp);
           somethingEle.value = '';
         });
