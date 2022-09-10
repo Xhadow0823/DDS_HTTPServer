@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "run reader": "nodemon dds_socket/reader_dds.js",
     "run writer": "nodemon dds_socket/writer_dds.js"
   },
   "author": "MIAT Lab",
