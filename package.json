@@ -4,9 +4,7 @@
   "description": "DDS gateway 產學專案 HTTP 伺服器 (node v10.20.1)",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "run reader": "node dds/reader.js",
-    "run writer": "node dds/writer.js"
+    "dev": "nodemon index.js"
   },
   "author": "MIAT Lab",
   "license": "ISC",
