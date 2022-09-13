@@ -9,6 +9,7 @@ const app = express();
 const { createServer } = require('http');
 const httpServer = createServer(app);
 const { Server } = require("socket.io");
+const { win32 } = require('path');
 const io = new Server(httpServer);
 
 const port = process.env.PORT;
@@ -37,4 +38,20 @@ io.on('connection', (socket) => {
 
 httpServer.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-}); 
+});
+
+// ========== Interrupt 邏輯處理 Start ==========
+if(process.platform == win32) {
+  var readline = require("readline").createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  readline.on("SIGINT", function () {
+    process.emit("SIGINT");
+  });
+}
+process.on('SIGINT', () => {
+  console.log('i got you');
+  process.exit();  // for windows
+});
+// ========== Interrupt 邏輯處理 End ==========
