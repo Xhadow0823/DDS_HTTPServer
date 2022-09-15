@@ -4,5 +4,7 @@ module.exports = {
   /** 資料庫模型 */
   db: db,
   /** NTP 資料表模型 */
-  NTP: require('./NTP')(db)
+  NTP: require('./NTP')(db),
+  /** topic 資料表模型 */
+  topic: require('./topic')(db)
 }

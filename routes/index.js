@@ -3,6 +3,7 @@ const Router = require('express').Router;
 const { DBSync, DBAuthTest, auth } = require('../middlewares');
 const login = require('./login');
 const NTP = require('./NTP');
+const DDS = require('./DDS');
 
 const router = Router();
 
@@ -26,6 +27,8 @@ router.use('/serialOverTCP', (req, res) => {
 router.use('/firewall', auth, (req, res) => {
   res.send('this is firewall' + '\n user: ' + req.user);
 });
+
+router.use('/dds', DDS);
 
 // login
 router.post('/login', DBSync, login);
