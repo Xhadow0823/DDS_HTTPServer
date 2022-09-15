@@ -1,10 +1,9 @@
 const router = require('express').Router();
 
-const { DBSync } = require('../middlewares');
+const { DBSync, checkTopicName } = require('../middlewares');
 const topic = require('../controllers').topic;
 
 /* todo: 
-topic name check middleware
 use auth check middleware
 */      
 
@@ -19,7 +18,7 @@ router.get('/all', DBSync, (req, res) => {
     });
 });
 
-router.get('/:topic', DBSync, (req, res) => {
+router.get('/:topic', checkTopicName, DBSync, (req, res) => {
     const topicName = req.params.topic;
     const limit = req.query.limit;
     // never happen...
@@ -37,7 +36,7 @@ router.get('/:topic', DBSync, (req, res) => {
     });
 });
 
-router.post('/:topic', DBSync, (req, res) => {
+router.post('/:topic', checkTopicName, DBSync, (req, res) => {
     // rule 1: topic name cant be 'all'
     const data = req.body.data;
     topic.newOne({
@@ -51,7 +50,7 @@ router.post('/:topic', DBSync, (req, res) => {
     });
 });
 
-router.delete('/:topic', DBSync, (req, res) => {
+router.delete('/:topic', checkTopicName, DBSync, (req, res) => {
     const topicName = req.params.topic;
     topic.drop({
         name: topicName

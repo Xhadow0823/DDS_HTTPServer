@@ -1,4 +1,5 @@
 module.exports = {
     ...require('./db'),
-    ...require('./auth')
+    ...require('./auth'),
+    ...require('./checkTopicName')
 }
