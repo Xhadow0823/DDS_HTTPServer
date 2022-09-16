@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
  * 登入(POST) callback function
  */
 module.exports = (req, res) => {
-  // temp 
+  // hard code
   const user = {
-    userid: '12345',
-    hash: '822d'
+    userid: 'admin',
+    hash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
   };
 
   const { userid, hash } = req.body;
